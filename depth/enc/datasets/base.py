@@ -46,7 +46,7 @@ class BaseDataset(data.Dataset):
     def pred_offset(self):
         raise NotImplemented
 
-    def _val_sync_transform(self, img, mask):
+    def _val_sync_transform(self, img, mask, depth):
         outsize = self.crop_size
         short_size = outsize
         w, h = img.size
@@ -58,14 +58,16 @@ class BaseDataset(data.Dataset):
             oh = int(1.0 * h * ow / w)
         img = img.resize((ow, oh), Image.BILINEAR)
         mask = mask.resize((ow, oh), Image.NEAREST)
+        depth = depth.resize((ow, oh), Image.NEAREST)
         # center crop
         w, h = img.size
         x1 = int(round((w - outsize) / 2.))
         y1 = int(round((h - outsize) / 2.))
         img = img.crop((x1, y1, x1+outsize, y1+outsize))
         mask = mask.crop((x1, y1, x1+outsize, y1+outsize))
+        depth = depth.crop((x1, y1, x1+outsize, y1+outsize))
         # final transform
-        return img, self._mask_transform(mask)
+        return img, self._mask_transform(mask), self._mask_transform(depth)
 
     def _sync_transform(self, img, mask, depth):
         # random mirror
@@ -98,7 +100,7 @@ class BaseDataset(data.Dataset):
             padw = crop_size - ow if ow < crop_size else 0
             img = ImageOps.expand(img, border=(0, 0, padw, padh), fill=0)
             mask = ImageOps.expand(mask, border=(0, 0, padw, padh), fill=255)#pad 255 for cityscapes
-            depth = ImageOps.expand(depth, border=(0, 0, padw, padh), fill=255)
+            depth = ImageOps.expand(depth, border=(0, 0, padw, padh), fill=0)
         # random crop crop_size
         w, h = img.size
         x1 = random.randint(0, w - crop_size)
