@@ -156,7 +156,6 @@ class Trainer():
                 out.append(outputs[i][0])
             outputs = torch.stack(out).view(-1, 19, args.crop_size, args.crop_size)
             pred = outputs
-            print(pred.size())
             target = target.cuda()
             correct, labeled = utils.batch_pix_accuracy(pred.data, target)
             inter, union = utils.batch_intersection_union(pred.data, target, self.nclass)
@@ -205,6 +204,6 @@ if __name__ == "__main__":
     trainer.logger.info(['Total Epoches:', str(args.epochs)])
 
     for epoch in range(args.start_epoch, args.epochs):
-        #trainer.training(epoch)
+        trainer.training(epoch)
         if not args.no_val:
             trainer.validation(epoch)
