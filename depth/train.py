@@ -150,7 +150,7 @@ class Trainer():
     def validation(self, epoch):
         # Fast test during the training
         def eval_batch(model, image, target, depth):
-            outputs, _ = model(image, depth)
+            outputs, _ = model(image)
             outputs = gather(outputs, 0, dim=0)
             pred = outputs[0]
             target = target.cuda()
