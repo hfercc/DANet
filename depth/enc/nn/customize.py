@@ -105,7 +105,7 @@ class SegmentationMultiLosses(CrossEntropyLoss):
             loss = super(SegmentationMultiLosses, self).forward(pred1, target)
         else:
             print(depth.size())
-            print(target.size())
+            print(pred1.size())
             loss = super(SegmentationMultiLosses, self).forward(pred2, depth)
         #loss3 = super(SegmentationMultiLosses, self).forward(pred3, target)
         #loss = loss1 + loss2 + loss3
