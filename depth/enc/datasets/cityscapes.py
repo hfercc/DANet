@@ -100,15 +100,18 @@ def _get_cityscapes_pairs(folder, split='train'):
     if split == 'train':
         split_f = os.path.join(folder, 'train_fine.txt')
         img_paths, mask_paths = get_path_pairs(folder, split_f)
-        depth = get_depth_file(folder, "depth_train.txt")
+        depth_f = os.path.join(folder, "depth_train.txt")
+        depth = get_depth_file(folder, depth_f)
     elif split == 'val':
         split_f = os.path.join(folder, 'val_fine.txt')
         img_paths, mask_paths = get_path_pairs(folder, split_f)
-        depth = get_depth_file(folder, "depth_val.txt")
+        depth_f = os.path.join(folder, "depth_val.txt")
+        depth = get_depth_file(folder, depth_f)
     elif split == 'test':
         split_f = os.path.join(folder, 'test.txt')
         img_paths, mask_paths = get_path_pairs(folder, split_f)
-        depth = get_depth_file(folder, "depth_test.txt")
+        depth_f = os.path.join(folder, "depth_test.txt")
+        depth = get_depth_file(folder, depth_f)
     else:
         split_f = os.path.join(folder, 'trainval_fine.txt')
         img_paths, mask_paths = get_path_pairs(folder, split_f)
