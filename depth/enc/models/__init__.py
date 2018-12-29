@@ -3,7 +3,6 @@ from .model_store import get_model_file
 from .base import *
 from .fcn import *
 from .psp import *
-from .encnet import *
 from .danet import *
 
 def get_segmentation_model(name, **kwargs):
