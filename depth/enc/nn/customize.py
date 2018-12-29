@@ -95,6 +95,7 @@ class SegmentationMultiLosses(CrossEntropyLoss):
         self.nclass = nclass
         self.choice = 0
         self.aux_loss = MSELoss()
+        self.param = 0.002
 
 
     def forward(self, *inputs):
@@ -106,13 +107,11 @@ class SegmentationMultiLosses(CrossEntropyLoss):
         print(pred2.size())
         print(target.size())
         print(depth.size())
-        if choice == 0:
-            loss = super(SegmentationMultiLosses, self).forward(pred1, target)
-        else:
-            loss = self.aux_loss(pred2, depth.float())
+        loss1 = super(SegmentationMultiLosses, self).forward(pred1, target)
+        loss2 = self.aux_loss(pred2, depth.float())
         #loss3 = super(SegmentationMultiLosses, self).forward(pred3, target)
         #loss = loss1 + loss2 + loss3
-        #loss = loss1 + loss2
+        loss = loss1 + loss2 * self.param
         return loss
 
 
