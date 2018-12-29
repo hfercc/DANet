@@ -35,6 +35,7 @@ def batch_intersection_union(predict, target, nclass):
         nclass: number of categories (int)
     """
     _, predict = torch.max(predict, 1)
+    print(predict.shape)
     mini = 1
     maxi = nclass
     nbins = nclass
