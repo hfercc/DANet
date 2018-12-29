@@ -149,8 +149,8 @@ class Trainer():
 
     def validation(self, epoch):
         # Fast test during the training
-        def eval_batch(model, image, target):
-            outputs = model(image)
+        def eval_batch(model, image, target, depth):
+            outputs, _ = model(image, depth)
             outputs = gather(outputs, 0, dim=0)
             pred = outputs[0]
             target = target.cuda()
@@ -163,7 +163,7 @@ class Trainer():
         total_inter, total_union, total_correct, total_label = 0, 0, 0, 0
         tbar = tqdm(self.valloader, desc='\r')
 
-        for i, (image, target) in enumerate(tbar):
+        for i, (image, target, depth) in enumerate(tbar):
             if torch_ver == "0.3":
                 image = Variable(image, volatile=True)
                 correct, labeled, inter, union = eval_batch(self.model, image, target)
