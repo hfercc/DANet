@@ -2,7 +2,6 @@
 
 from .fcn import *
 from .psp import *
-from .encnet import *
 
 __all__ = ['get_model']
 
