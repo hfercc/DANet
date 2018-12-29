@@ -111,7 +111,7 @@ class BaseDataset(data.Dataset):
         #     img = img.filter(ImageFilter.GaussianBlur(
         #         radius=random.random()))
         # final transform
-        return img, self._mask_transform(mask), depth
+        return img, self._mask_transform(mask), self._mask_transform(depth)
 
     def _mask_transform(self, mask):
         return torch.from_numpy(np.array(mask)).long()
