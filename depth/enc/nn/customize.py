@@ -11,7 +11,7 @@
 """Encoding Custermized NN Module"""
 import torch
 from torch.nn import Module, Sequential, Conv2d, ReLU, AdaptiveAvgPool2d, \
-    NLLLoss, BCELoss, CrossEntropyLoss, AvgPool2d, MaxPool2d, Parameter
+    NLLLoss, BCELoss, CrossEntropyLoss, AvgPool2d, MaxPool2d, Parameter, MSELoss
 from torch.nn import functional as F
 from torch.autograd import Variable
 import numpy as np
@@ -94,6 +94,7 @@ class SegmentationMultiLosses(CrossEntropyLoss):
         super(SegmentationMultiLosses, self).__init__(weight, size_average, ignore_index)
         self.nclass = nclass
         self.choice = 0
+        self.aux_loss = MSELoss()
 
 
     def forward(self, *inputs):
@@ -105,12 +106,12 @@ class SegmentationMultiLosses(CrossEntropyLoss):
         print(pred2.size())
         print(target.size())
         print(depth.size())
-        print(depth)
+        print(depth.)
         print(target)
         if choice == 0:
             loss = super(SegmentationMultiLosses, self).forward(pred1, target)
         else:
-            loss = super(SegmentationMultiLosses, self).forward(pred2, depth)
+            loss = self.aux_loss(pred2, depth)
         #loss3 = super(SegmentationMultiLosses, self).forward(pred3, target)
         #loss = loss1 + loss2 + loss3
         #loss = loss1 + loss2
