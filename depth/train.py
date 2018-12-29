@@ -166,10 +166,10 @@ class Trainer():
         for i, (image, target, depth) in enumerate(tbar):
             if torch_ver == "0.3":
                 image = Variable(image, volatile=True)
-                correct, labeled, inter, union = eval_batch(self.model, image, target)
+                correct, labeled, inter, union = eval_batch(self.model, image, target, depth)
             else:
                 with torch.no_grad():
-                    correct, labeled, inter, union = eval_batch(self.model, image, target)
+                    correct, labeled, inter, union = eval_batch(self.model, image, target, depth)
 
             total_correct += correct
             total_label += labeled
@@ -201,6 +201,6 @@ if __name__ == "__main__":
     trainer.logger.info(['Total Epoches:', str(args.epochs)])
 
     for epoch in range(args.start_epoch, args.epochs):
-        trainer.training(epoch)
+        #trainer.training(epoch)
         if not args.no_val:
             trainer.validation(epoch)
