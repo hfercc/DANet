@@ -41,6 +41,7 @@ class FCN(BaseNet):
     def __init__(self, nclass, backbone, aux=True, se_loss=False, norm_layer=nn.BatchNorm2d, **kwargs):
         super(FCN, self).__init__(nclass, backbone, aux, se_loss, norm_layer=norm_layer, **kwargs)
         self.head = FCNHead(2048, nclass, norm_layer)
+        self.depth_
         if aux:
             self.auxlayer = FCNHead(1024, nclass, norm_layer)
 
@@ -52,7 +53,7 @@ class FCN(BaseNet):
         x = list(x)
         #x = upsample(x, imsize, **self._up_kwargs)
         x[0] = upsample(x[0], imsize, **self._up_kwargs)
-        x[1] = upsample(x[1], imsize, **self._up_kwargs)
+        x[1] = upsample(x[1], imsize, **self._up_kwargs).view(-1, imsize)
         outputs = [x[0]]
         outputs.append(x[1])
         if self.aux:
@@ -76,7 +77,7 @@ class FCNHead(nn.Module):
                                    norm_layer(inter_channels),
                                    nn.ReLU(),
                                    nn.Dropout2d(0.1, False),
-                                   nn.Conv2d(inter_channels, out_channels, 1))
+                                   nn.Conv2d(inter_channels, 1, 1))
     def forward(self, x):
         normal_out = self.conv5(x)
         depth_out = self.conv6(x)
