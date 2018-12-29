@@ -62,6 +62,7 @@ class CityscapesSegmentation(BaseDataset):
             img = self.transform(img)
         if self.target_transform is not None:
             mask = self.target_transform(mask)
+            depth = self.target_transform(depth)
 
         return img, mask, depth
 
