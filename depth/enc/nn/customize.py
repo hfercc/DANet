@@ -14,6 +14,7 @@ from torch.nn import Module, Sequential, Conv2d, ReLU, AdaptiveAvgPool2d, \
     NLLLoss, BCELoss, CrossEntropyLoss, AvgPool2d, MaxPool2d, Parameter
 from torch.nn import functional as F
 from torch.autograd import Variable
+import numpy as np
 
 torch_ver = torch.__version__[:3]
 
@@ -99,8 +100,8 @@ class SegmentationMultiLosses(CrossEntropyLoss):
 
         *preds, depth, target = tuple(inputs)
         pred1, pred2 = tuple(preds)
-
-        if self.choice == 0:
+        choice = np.random.randint(0,2)
+        if choice == 0:
             loss = super(SegmentationMultiLosses, self).forward(pred1, target)
         else:
             loss = super(SegmentationMultiLosses, self).forward(pred2, depth)

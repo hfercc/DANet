@@ -44,8 +44,6 @@ class CityscapesSegmentation(BaseDataset):
             return img, os.path.basename(self.images[index])
         
         mask = Image.open(self.masks[index])
-        print(len(self.depth))
-        print(len(self.masks))
         depth = Image.open(self.depth[index]).convert("L")
         
         # synchrosized transform
