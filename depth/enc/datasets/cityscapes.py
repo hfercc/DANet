@@ -56,6 +56,7 @@ class CityscapesSegmentation(BaseDataset):
         else:
             assert self.mode == 'testval'
             mask = self._mask_transform(mask)
+            depth = self._mask_transform(depth)
 
         # general resize, normalize and toTensor
         if self.transform is not None:
