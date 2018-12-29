@@ -52,7 +52,7 @@ class FCN(BaseNet):
         x = list(x)
         #x = upsample(x, imsize, **self._up_kwargs)
         x[0] = upsample(x[0], imsize, **self._up_kwargs)
-        x[1] = upsample(x[1], imsize, **self._up_kwargs).view(-1, imsize)
+        x[1] = upsample(x[1], imsize, **self._up_kwargs).view(-1, imsize[0], imsize[1])
         outputs = [x[0]]
         outputs.append(x[1])
         if self.aux:
