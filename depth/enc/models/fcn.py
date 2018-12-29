@@ -85,7 +85,7 @@ class FCNHead(nn.Module):
 
 
 def get_fcn(dataset='pascal_voc', backbone='resnet50', pretrained=False,
-            root='~/.encoding/models', **kwargs):
+            root='/raid/sunfangwen/wzh/.torch/models', **kwargs):
     r"""FCN model from the paper `"Fully Convolutional Network for semantic segmentation"
     <https://people.eecs.berkeley.edu/~jonlong/long_shelhamer_fcn.pdf>`_
     Parameters
