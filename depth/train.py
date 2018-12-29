@@ -115,7 +115,7 @@ class Trainer():
         train_loss = 0.0
         self.model.train()
         tbar = tqdm(self.trainloader)
-
+        index = 0
         for i, (image, target, depth) in enumerate(tbar):
             self.scheduler(self.optimizer, i, epoch, self.best_pred)
             self.optimizer.zero_grad()
@@ -124,7 +124,9 @@ class Trainer():
                 target = Variable(target)
                 depth = Variable(depth)
             outputs = self.model(image)
-            loss = self.criterion(outputs, target, depth)
+            loss = self.criterion(outputs, 0, target)
+            loss.backward()
+            loss = self.criterion(outputs, 1, depth)
             loss.backward()
             self.optimizer.step()
             train_loss += loss.item()

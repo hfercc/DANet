@@ -94,17 +94,18 @@ class SegmentationMultiLosses(CrossEntropyLoss):
         self.nclass = nclass
 
 
-    def forward(self, *inputs):
+    def forward(self, index, *inputs):
 
-        *preds, target, depth = tuple(inputs)
+        *preds, target = tuple(inputs)
         pred1, pred2 = tuple(preds)
 
-
-        loss1 = super(SegmentationMultiLosses, self).forward(pred1, target)
-        loss2 = super(SegmentationMultiLosses, self).forward(pred2, depth)
+        if index == 0:
+            loss = super(SegmentationMultiLosses, self).forward(pred1, target)
+        else:
+            loss = super(SegmentationMultiLosses, self).forward(pred2, target)
         #loss3 = super(SegmentationMultiLosses, self).forward(pred3, target)
         #loss = loss1 + loss2 + loss3
-        loss = loss1 + loss2
+        #loss = loss1 + loss2
         return loss
 
 
