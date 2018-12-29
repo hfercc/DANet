@@ -78,8 +78,10 @@ class FCNHead(nn.Module):
                                    nn.Dropout2d(0.1, False),
                                    nn.Conv2d(inter_channels, out_channels, 1))
     def forward(self, x):
-        outputs = [self.conv5(x)]
-        outputs.append(self.conv6(x))
+        normal_out = self.conv5(x)
+        depth_out = self.conv6(x)
+        outputs = [normal_out]
+        outputs.append(depth_out)
         #return self.conv5(x)
         return tuple(outputs)
 
