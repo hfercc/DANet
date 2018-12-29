@@ -154,7 +154,7 @@ class Trainer():
             out = []
             for i in range(len(outputs)):
                 out.append(outputs[i][0])
-            outputs = torch.stack(out)
+            outputs = torch.stack(out).view(-1, 19, args.crop_size, args.crop_size)
             pred = outputs
             print(pred.size())
             target = target.cuda()
