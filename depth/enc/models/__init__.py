@@ -10,7 +10,6 @@ def get_segmentation_model(name, **kwargs):
     models = {
         'fcn': get_fcn,
         'psp': get_psp,
-        'encnet': get_encnet,
         'danet': get_danet,
     }
     return models[name.lower()](**kwargs)

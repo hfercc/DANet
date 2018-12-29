@@ -98,7 +98,8 @@ def _get_cityscapes_pairs(folder, split='train'):
         with open(split_f, 'r') as lines:
             for line in tqdm(lines):
                 imgpath = os.path.join(folder,line.rstrip())
-        return imgpath
+                img_paths.append(imgpath)
+        return img_paths
     if split == 'train':
         split_f = os.path.join(folder, 'train_fine.txt')
         img_paths, mask_paths = get_path_pairs(folder, split_f)
