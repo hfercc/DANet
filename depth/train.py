@@ -151,7 +151,7 @@ class Trainer():
         # Fast test during the training
         def eval_batch(model, image, target, depth):
             outputs= model(image)
-            print(type(outputs[0]))
+            print(type(outputs[0][0].size()))
             outputs = gather(pred1, 0, dim=0)
             pred = outputs[0]
             target = target.cuda()
