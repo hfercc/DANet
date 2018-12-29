@@ -151,9 +151,12 @@ class Trainer():
         # Fast test during the training
         def eval_batch(model, image, target, depth):
             outputs= model(image)
-            print(outputs[0][1].size())
-            outputs = gather(pred1, 0, dim=0)
-            pred = outputs[0]
+            out = []
+            for i in range(len(outputs)):
+                out.append(outputs[i][0])
+            outputs = torch.stack(out)
+            pred = outputs
+            print(pred.size())
             target = target.cuda()
             correct, labeled = utils.batch_pix_accuracy(pred.data, target)
             inter, union = utils.batch_intersection_union(pred.data, target, self.nclass)
