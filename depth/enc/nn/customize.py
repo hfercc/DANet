@@ -90,23 +90,30 @@ class SegmentationLosses(CrossEntropyLoss):
 
 class SegmentationMultiLosses(CrossEntropyLoss):
     """2D Cross Entropy Loss with Multi-L1oss"""
-    def __init__(self, nclass=-1, depth=0, weight=None,size_average=True, ignore_index=-1):
+    def __init__(self, nclass=-1, depth=0, weight=None,size_average=True, ignore_index=-1, prob=0.5, is_sum=0):
         super(SegmentationMultiLosses, self).__init__(weight, size_average, ignore_index)
         self.nclass = nclass
         self.choice = 0
         self.aux_loss = MSELoss()
         self.depth = depth
+        self.prob = prob
 
-
-    def forward(self, *inputs):
+        self.is_sum = is_sum
+    def forward(self, *inputs): 
 
         *preds, depth, target = tuple(inputs)
         pred1, pred2 = tuple(preds)
         loss1 = super(SegmentationMultiLosses, self).forward(pred1, target)
         loss2 = self.aux_loss(pred2, depth.float())
+        choice = (np.random.rand() < prob)
+        if choice:
         #loss3 = super(SegmentationMultiLosses, self).forward(pred3, target)
         #loss = loss1 + loss2 + loss3
-        loss = loss1 + loss2 * self.depth
+            loss = loss2 * self.depth
+            if self.is_sum:
+                loss = loss + loss1
+        else:
+            loss = loss1
         return loss
 
 

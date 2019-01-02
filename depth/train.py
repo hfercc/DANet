@@ -74,7 +74,7 @@ class Trainer():
                     lr=args.lr,
                     momentum=args.momentum,
                     weight_decay=args.weight_decay)
-        self.criterion = SegmentationMultiLosses(nclass=self.nclass, depth=args.depth)
+        self.criterion = SegmentationMultiLosses(nclass=self.nclass, depth=args.depth, prob=args.prob)
         #self.criterion = SegmentationLosses(se_loss=args.se_loss, aux=args.aux,nclass=self.nclass)
 
         self.model, self.optimizer = model, optimizer

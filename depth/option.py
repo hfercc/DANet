@@ -30,6 +30,8 @@ class Options():
         parser.add_argument('--crop-size', type=int, default=576,
                             help='crop image size')
         parser.add_argument('--depth', type=float, default=0)
+        parser.add_argument('--prob', type=float, default=0.5)
+        parser.add_argument('--sum', type=int, default=0)
         # training hyper params
 
         parser.add_argument('--aux', action='store_true', default= False,
