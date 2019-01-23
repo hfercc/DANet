@@ -150,6 +150,7 @@ class FCRN(nn.Module):
 
         self.upsample = nn.Upsample((768, 768), mode='bilinear')
 
+        self.conv4    = nn.Conv2d(1, 19, kernel_size = 1)
         # initialize
         if True:
             for m in self.modules():
@@ -205,5 +206,5 @@ class FCRN(nn.Module):
         x = self.relu(x)
         print(x.shape)
         x = self.upsample(x)
-
-        return x
+        x = self.conv4(x)
+        return x 
