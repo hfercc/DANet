@@ -203,7 +203,7 @@ class FCRN(nn.Module):
 
         x = self.conv3(x)
         x = self.relu(x)
-
+        print(x.shape)
         x = self.upsample(x)
 
         return x
