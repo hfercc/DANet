@@ -9,7 +9,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 from torch.nn.functional import upsample
-from fcrn import FCRN
+from .fcrn import FCRN
 dtype = torch.cuda.FloatTensor
 from .base import BaseNet
 
