@@ -105,7 +105,7 @@ class SegmentationMultiLosses(CrossEntropyLoss):
         pred1, _ = tuple(preds)
         print(pred1.shape)
         print(target.shape)
-        loss1 = super(SegmentationMultiLosses, self).forward(pred1, target)
+        loss = super(SegmentationMultiLosses, self).forward(pred1, target)
         #loss2 = self.aux_loss(pred2, depth.float())
         #choice = (np.random.rand() < self.prob)
         #if choice:
