@@ -51,9 +51,10 @@ class FCN(BaseNet):
 
     def forward(self, x, depth):
         imsize = x.size()[2:]
-
+        d_out = self.fcrn(depth)
         _, _, c3, c4 = self.base_forward(x)
         print(c4.shape)
+        print(d_out.shape)
         x = self.head(c4)
         x = list(x)
         #x = upsample(x, imsize, **self._up_kwargs)
