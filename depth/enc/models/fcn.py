@@ -60,10 +60,12 @@ class FCN(BaseNet):
         x = self.head(c4)
         x = list(x)
         #x = upsample(x, imsize, **self._up_kwargs)
-        x[0] = upsample(x[0], imsize, **self._up_kwargs)
-        x[1] = upsample(x[1], imsize, **self._up_kwargs).view(-1, imsize[0], imsize[1])
+        x[0] = upsample(x[0], imsize, **self._up_kwargs).view(-1, imsize[0], imsize[1])
+        x[0] += d_out
+        print(x[0].shape)
+        #x[1] = upsample(x[1], imsize, **self._up_kwargs).view(-1, imsize[0], imsize[1])
         outputs = [x[0]]
-        outputs.append(x[1])
+        #outputs.append(x[1])
         if self.aux:
             auxout = self.auxlayer(c3)
             auxout = upsample(auxout, imsize, **self._up_kwargs)
@@ -87,12 +89,14 @@ class FCNHead(nn.Module):
                                    nn.Dropout2d(0.1, False),
                                    nn.Conv2d(inter_channels, 1, 1))
     def forward(self, x):
-        normal_out = self.conv5(x)
-        depth_out = self.conv6(x)
-        outputs = [normal_out]
-        outputs.append(depth_out)
+        #normal_out = self.conv5(x)
+        #depth_out = self.conv6(x)
+        #outputs = [normal_out]
+        #outputs.append(depth_out)
         #return self.conv5(x)
-        return tuple(outputs)
+        #return tuple(outputs)
+        normal_out = self.conv5(x)
+        return normal_out
 
 
 def get_fcn(dataset='pascal_voc', backbone='resnet50', pretrained=False,
