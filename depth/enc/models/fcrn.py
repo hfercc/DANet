@@ -151,6 +151,7 @@ class FCRN(nn.Module):
         self.upsample = nn.Upsample((768, 768), mode='bilinear')
 
         self.conv4    = nn.Conv2d(1, 19, kernel_size = 1)
+        nn.init.xavier_uniform(self.conv4.weight)
         # initialize
         if True:
             for m in self.modules():
