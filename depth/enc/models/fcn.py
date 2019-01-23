@@ -43,7 +43,7 @@ class FCN(BaseNet):
     def __init__(self, nclass, backbone, aux=True, se_loss=False, norm_layer=nn.BatchNorm2d, **kwargs):
         super(FCN, self).__init__(nclass, backbone, aux, se_loss, norm_layer=norm_layer, **kwargs)
         self.head = FCNHead(2048, nclass, norm_layer)
-        self.fcrn = FCRN(4)
+        self.fcrn = FCRN(2)
         self.fcrn.load_state_dict(load_weights(self.fcrn, "NYU_ResNet-UpProj.npy", dtype))
         self.fcrn.train()
         if aux:
