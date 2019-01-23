@@ -10,6 +10,7 @@ import torch
 import torch.nn as nn
 from torch.nn.functional import upsample
 from .fcrn import FCRN
+from .weights import load_weights
 dtype = torch.cuda.FloatTensor
 from .base import BaseNet
 
