@@ -153,7 +153,7 @@ class Trainer():
     def validation(self, epoch):
         # Fast test during the training
         def eval_batch(model, image, target, depth):
-            outputs= model(image)
+            outputs= model(image, depth)
             out = []
             for i in range(len(outputs)):
                 out.append(outputs[i][0])
