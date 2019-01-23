@@ -30,7 +30,7 @@ class CityscapesSegmentation(BaseDataset):
         assert os.path.exists(root), "Please download the dataset!!"
         if siamese:
             self.second_transform = transform.Compose([
-                transform.Resize(228)
+                transform.Resize(228),
                 transform.ToTensor(),
                 ])
         self.images, self.masks, self.depth = _get_cityscapes_pairs(root, split)
