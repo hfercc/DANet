@@ -13,7 +13,7 @@ from PIL import Image, ImageOps, ImageFilter
 
 import torch
 import torch.utils.data as data
-import torchvision.transforms as transform
+import torchvision.transforms as transforms
 import re
 from tqdm import tqdm
 from .base import BaseDataset
@@ -29,9 +29,9 @@ class CityscapesSegmentation(BaseDataset):
         root = os.path.join(root, self.BASE_DIR)
         assert os.path.exists(root), "Please download the dataset!!"
         if siamese:
-            self.second_transform = transform.Compose([
-                transform.Resize((228, 304)),
-                transform.ToTensor(),
+            self.second_transform = transforms.Compose([
+                transforms.Resize((228, 304)),
+                transforms.ToTensor(),
                 ])
         self.images, self.masks, self.depth = _get_cityscapes_pairs(root, split)
         if split != 'vis':
