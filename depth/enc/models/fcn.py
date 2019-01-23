@@ -70,7 +70,7 @@ class FCN(BaseNet):
             auxout = self.auxlayer(c3)
             auxout = upsample(auxout, imsize, **self._up_kwargs)
             outputs.append(auxout)
-        return tuple(outputs)
+        return outputs
 
         
 class FCNHead(nn.Module):
