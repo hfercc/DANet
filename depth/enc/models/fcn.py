@@ -50,18 +50,18 @@ class FCN(BaseNet):
             self.auxlayer = FCNHead(1024, nclass, norm_layer)
 
     def forward(self, x, depth):
-        print(x.shape)
-        print(depth.shape)
         imsize = x.size()[2:]
         d_out = self.fcrn(depth).squeeze(1)
         _, _, c3, c4 = self.base_forward(x)
+        print("C4")
         print(c4.shape)
+        print("D_OUT")
         print(d_out.shape)
         x = self.head(c4)
         #x = upsample(x, imsize, **self._up_kwargs)
-        print(x.shape)
         x = upsample(x, imsize, **self._up_kwargs)
-        x += d_out
+        print("UPSAMPLE")
+        #x += d_out
         print(x.shape)
         #x[1] = upsample(x[1], imsize, **self._up_kwargs).view(-1, imsize[0], imsize[1])
         outputs = [x]
