@@ -43,7 +43,7 @@ class FCN(BaseNet):
         super(FCN, self).__init__(nclass, backbone, aux, se_loss, norm_layer=norm_layer, **kwargs)
         self.head = FCNHead(2048, nclass, norm_layer)
         self.fcrn = FCRN(4)
-        self.fcrn.load_state_dict(load_weights(self.fcrn, NYU_ResNet-UpProj.npy, dtype))
+        self.fcrn.load_state_dict(load_weights(self.fcrn, "NYU_ResNet-UpProj.npy", dtype))
         self.fcrn.train()
         if aux:
             self.auxlayer = FCNHead(1024, nclass, norm_layer)
