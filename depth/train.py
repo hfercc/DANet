@@ -42,9 +42,9 @@ class Trainer():
         data_kwargs = {'transform': input_transform, 'base_size': args.base_size,
                        'crop_size': args.crop_size, 'logger': self.logger,
                        'scale': args.scale}
-        trainset = get_segmentation_dataset(args.dataset, split='train', mode='train', siamese=True
+        trainset = get_segmentation_dataset(args.dataset, split='train', mode='train', siamese=True,
                                             **data_kwargs)
-        testset = get_segmentation_dataset(args.dataset, split='val', mode='val', siamese=True
+        testset = get_segmentation_dataset(args.dataset, split='val', mode='val', siamese=True,
                                            **data_kwargs)
         # dataloader
         kwargs = {'num_workers': args.workers, 'pin_memory': True} \
