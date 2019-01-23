@@ -64,7 +64,7 @@ class FCN(BaseNet):
         #x += d_out
         print(x.shape)
         #x[1] = upsample(x[1], imsize, **self._up_kwargs).view(-1, imsize[0], imsize[1])
-        outputs = [x]
+        outputs = [x, x]
         #outputs.append(x[1])
         if self.aux:
             auxout = self.auxlayer(c3)
