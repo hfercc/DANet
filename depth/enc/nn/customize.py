@@ -101,19 +101,19 @@ class SegmentationMultiLosses(CrossEntropyLoss):
         self.is_sum = is_sum
     def forward(self, *inputs): 
 
-        *preds, depth, target = tuple(inputs)
-        pred1, pred2 = tuple(preds)
-        loss1 = super(SegmentationMultiLosses, self).forward(pred1, target)
-        loss2 = self.aux_loss(pred2, depth.float())
-        choice = (np.random.rand() < self.prob)
-        if choice:
+        *preds, target = tuple(inputs)
+        pred1 = tuple(preds)
+        loss = super(SegmentationMultiLosses, self).forward(pred1, target)
+        #loss2 = self.aux_loss(pred2, depth.float())
+        #choice = (np.random.rand() < self.prob)
+        #if choice:
         #loss3 = super(SegmentationMultiLosses, self).forward(pred3, target)
         #loss = loss1 + loss2 + loss3
-            loss = loss2 * self.depth
-            if self.is_sum:
-                loss = loss + loss1
-        else:
-            loss = loss1
+        #    loss = loss2 * self.depth
+        #    if self.is_sum:
+        #        loss = loss + loss1
+        #else:
+        #    loss = loss1
         return loss
 
 
