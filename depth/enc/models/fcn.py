@@ -50,6 +50,8 @@ class FCN(BaseNet):
             self.auxlayer = FCNHead(1024, nclass, norm_layer)
 
     def forward(self, x, depth):
+        print(x.shape)
+        print(depth.shape)
         imsize = x.size()[2:]
         d_out = self.fcrn(depth)
         _, _, c3, c4 = self.base_forward(x)
