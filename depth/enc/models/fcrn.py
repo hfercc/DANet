@@ -204,6 +204,6 @@ class FCRN(nn.Module):
         x = self.conv3(x)
         x = self.relu(x)
 
-        x = self.upsample(x)
+        #x = self.upsample(x)
 
         return x
