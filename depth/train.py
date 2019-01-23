@@ -124,6 +124,8 @@ class Trainer():
                 target = Variable(target)
                 depth = Variable(depth)
             outputs = self.model(image, depth)
+            print(outputs.shape)
+            print(target.shape)
             loss = self.criterion(outputs, depth, target)
             loss.backward()
             #loss = self.criterion(outputs, 1, depth)
