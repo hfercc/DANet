@@ -22,13 +22,17 @@ class CityscapesSegmentation(BaseDataset):
     BASE_DIR = 'cityscapes'
     NUM_CLASS = 19
     def __init__(self, root='../datasets', split='train',
-                 mode=None, transform=None, target_transform=None, **kwargs):
+                 mode=None, transform=None, target_transform=None, siamese = True, **kwargs):
         super(CityscapesSegmentation, self).__init__(
             root, split, mode, transform, target_transform, **kwargs)
         # assert exists
         root = os.path.join(root, self.BASE_DIR)
         assert os.path.exists(root), "Please download the dataset!!"
-
+        if siamese:
+            self.second_transform = transform.Compose([
+                transform.Resize(228)
+                transform.ToTensor(),
+                ])
         self.images, self.masks, self.depth = _get_cityscapes_pairs(root, split)
         if split != 'vis':
             assert (len(self.images) == len(self.masks))
@@ -57,12 +61,15 @@ class CityscapesSegmentation(BaseDataset):
             depth = self._mask_transform(depth)
 
         # general resize, normalize and toTensor
+        if siamese:
+            simg = self.second_transform(img)
         if self.transform is not None:
             img = self.transform(img)
         if self.target_transform is not None:
             mask = self.target_transform(mask)
             depth = self.target_transform(depth)
-
+        if siamese:
+            return img, mask, simg
         return img, mask, depth
 
     def _mask_transform(self, mask):

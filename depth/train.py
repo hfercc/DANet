@@ -42,9 +42,9 @@ class Trainer():
         data_kwargs = {'transform': input_transform, 'base_size': args.base_size,
                        'crop_size': args.crop_size, 'logger': self.logger,
                        'scale': args.scale}
-        trainset = get_segmentation_dataset(args.dataset, split='train', mode='train',
+        trainset = get_segmentation_dataset(args.dataset, split='train', mode='train', siamese=True
                                             **data_kwargs)
-        testset = get_segmentation_dataset(args.dataset, split='val', mode='val',
+        testset = get_segmentation_dataset(args.dataset, split='val', mode='val', siamese=True
                                            **data_kwargs)
         # dataloader
         kwargs = {'num_workers': args.workers, 'pin_memory': True} \
@@ -123,7 +123,7 @@ class Trainer():
                 image = Variable(image)
                 target = Variable(target)
                 depth = Variable(depth)
-            outputs = self.model(image)
+            outputs = self.model(image, depth)
             loss = self.criterion(outputs, depth, target)
             loss.backward()
             #loss = self.criterion(outputs, 1, depth)

@@ -9,7 +9,8 @@ import numpy as np
 import torch
 import torch.nn as nn
 from torch.nn.functional import upsample
-
+from fcrn import FCRN
+dtype = torch.cuda.FloatTensor
 from .base import BaseNet
 
 __all__ = ['FCN', 'get_fcn', 'get_fcn_resnet50_pcontext', 'get_fcn_resnet50_ade']
@@ -41,13 +42,17 @@ class FCN(BaseNet):
     def __init__(self, nclass, backbone, aux=True, se_loss=False, norm_layer=nn.BatchNorm2d, **kwargs):
         super(FCN, self).__init__(nclass, backbone, aux, se_loss, norm_layer=norm_layer, **kwargs)
         self.head = FCNHead(2048, nclass, norm_layer)
+        self.fcrn = FCRN(4)
+        self.fcrn.load_state_dict(load_weights(self.fcrn, NYU_ResNet-UpProj.npy, dtype))
+        self.fcrn.train()
         if aux:
             self.auxlayer = FCNHead(1024, nclass, norm_layer)
 
-    def forward(self, x):
+    def forward(self, x, depth):
         imsize = x.size()[2:]
-        _, _, c3, c4 = self.base_forward(x)
 
+        _, _, c3, c4 = self.base_forward(x)
+        print(c4.shape)
         x = self.head(c4)
         x = list(x)
         #x = upsample(x, imsize, **self._up_kwargs)
