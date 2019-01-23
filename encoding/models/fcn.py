@@ -50,7 +50,7 @@ class FCN(BaseNet):
 
         x = self.head(c4)
         x = upsample(x, imsize, **self._up_kwargs)
-        outputs = [x]
+        outputs = [x ,x]
         if self.aux:
             auxout = self.auxlayer(c3)
             auxout = upsample(auxout, imsize, **self._up_kwargs)
