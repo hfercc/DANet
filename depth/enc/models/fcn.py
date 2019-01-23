@@ -60,6 +60,7 @@ class FCN(BaseNet):
         x = self.head(c4)
         x = list(x)
         #x = upsample(x, imsize, **self._up_kwargs)
+        print(x[0].shape)
         x[0] = upsample(x[0], imsize, **self._up_kwargs).view(-1, imsize[0], imsize[1])
         x[0] += d_out
         print(x[0].shape)
