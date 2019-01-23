@@ -28,6 +28,7 @@ class CityscapesSegmentation(BaseDataset):
         # assert exists
         root = os.path.join(root, self.BASE_DIR)
         assert os.path.exists(root), "Please download the dataset!!"
+        self.siamese = siamese
         if siamese:
             self.second_transform = transforms.Compose([
                 transforms.Resize((228, 304)),
@@ -61,14 +62,14 @@ class CityscapesSegmentation(BaseDataset):
             depth = self._mask_transform(depth)
 
         # general resize, normalize and toTensor
-        if siamese:
+        if self.siamese:
             simg = self.second_transform(img)
         if self.transform is not None:
             img = self.transform(img)
         if self.target_transform is not None:
             mask = self.target_transform(mask)
             depth = self.target_transform(depth)
-        if siamese:
+        if self.siamese:
             return img, mask, simg
         return img, mask, depth
 
