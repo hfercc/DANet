@@ -208,5 +208,5 @@ class FCRN(nn.Module):
         #print(x.shape)
         x = self.upsample(x)
         #x = self.conv4(x)
-        print(x.shape)
+        #print(x.shape)
         return x 
