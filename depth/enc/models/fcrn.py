@@ -150,7 +150,7 @@ class FCRN(nn.Module):
 
         self.upsample = nn.Upsample((768, 768), mode='bilinear')
 
-        self.conv4    = nn.Conv2d(1, 19, kernel_size = 1)
+        self.conv4    = nn.Conv2d(64, 19, kernel_size = 3, padding = 1)
         nn.init.xavier_uniform(self.conv4.weight)
         # initialize
         if True:
@@ -203,9 +203,10 @@ class FCRN(nn.Module):
 
         x = self.drop(x)
 
-        x = self.conv3(x)
+        x = self.conv4(x)
         x = self.relu(x)
         #print(x.shape)
         x = self.upsample(x)
-        x = self.conv4(x)
+        #x = self.conv4(x)
+        print(x.shape)
         return x 
