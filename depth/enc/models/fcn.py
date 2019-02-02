@@ -45,6 +45,7 @@ class FCN(BaseNet):
         self.head = FCNHead(2048, nclass, norm_layer)
         self.fcrn = FCRN(1)
         self.fcrn.load_state_dict(load_weights(self.fcrn, "NYU_ResNet-UpProj.npy", dtype))
+        self.fcrn.load_state_dict(torch.load('checkpoint.pth.par')['state_dict'])
         self.fcrn.train()
         if aux:
             self.auxlayer = FCNHead(1024, nclass, norm_layer)

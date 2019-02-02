@@ -31,7 +31,7 @@ class CityscapesSegmentation(BaseDataset):
         self.siamese = siamese
         if siamese:
             self.second_transform = transforms.Compose([
-                #transforms.Resize((228, 304)),
+                transforms.Resize((228, 304)),
                 transforms.ToTensor(),
                 ])
         self.images, self.masks, self.depth = _get_cityscapes_pairs(root, split)
