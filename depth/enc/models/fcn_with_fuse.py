@@ -72,20 +72,16 @@ class FCN(BaseNet):
         x = self.pretrained.relu(x)
         x = self.pretrained.maxpool(x)
         c1 = self.pretrained.layer1(x)
-        print(c1.shape)
-        print(d1.shape)
+        
         c1 = torch.add(c1, d1)
         c2 = self.pretrained.layer2(c1)
-        print(c2.shape)
-        print(d2.shape)
+        
         c2 = torch.add(c2, d2)
         c3 = self.pretrained.layer3(c2)
-        print(c3.shape)
-        print(d3.shape)
+        
         c3 = torch.add(c3, d3)
         c4 = self.pretrained.layer4(c3)
-        print(d4.shape)
-        print(c4.shape)
+        
         c4 = torch.add(c4, d4)
         return c1, c2, c3, c4
 
