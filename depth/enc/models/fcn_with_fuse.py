@@ -54,6 +54,7 @@ class FCN(BaseNet):
             self.auxlayer = FCNHead(1024, nclass, norm_layer)
 
     def depth_forward(self, x):
+        print(x.shape)
         x = self.depth.conv1(x)
         x = self.depth.bn1(x)
         x = self.depth.relu(x)
@@ -65,6 +66,7 @@ class FCN(BaseNet):
         return c1, c2, c3, c4
 
     def rgb_forward(self, x, d1, d2, d3, d4):
+        print(x.shape)
         x = self.pretrained.conv1(x)
         x = self.pretrained.bn1(x)
         x = self.pretrained.relu(x)
