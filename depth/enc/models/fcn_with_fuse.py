@@ -49,6 +49,7 @@ class FCN(BaseNet):
         self.fcrn.load_state_dict(torch.load('checkpoint.pth.tar')['state_dict'])
         self.fcrn.train()
         self.depth = models.resnet50(pretrained=True)
+        self.depth.conv1 = nn.Conv2d(1, 64, 7, 2, 3, bias=False)
         if aux:
             self.auxlayer = FCNHead(1024, nclass, norm_layer)
 
