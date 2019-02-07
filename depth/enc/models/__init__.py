@@ -12,6 +12,6 @@ def get_segmentation_model(name, **kwargs):
         'fcn': get_fcn,
         'psp': get_psp,
         'danet': get_danet,
-        'fcn_with_fuse', get_fcn_with_fuse
+        'fcn_with_fuse': get_fcn_with_fuse
     }
     return models[name.lower()](**kwargs)
