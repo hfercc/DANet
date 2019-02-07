@@ -4,10 +4,11 @@ from .base import *
 from .fcn import *
 from .psp import *
 from .danet import *
-from .fcn_with_fuse import *
+#from .fcn_with_fuse import *
 
 def get_segmentation_model(name, **kwargs):
     from .fcn import get_fcn
+    from .fcn_with_fuse import get_fcn_with_fuse
     models = {
         'fcn': get_fcn,
         'psp': get_psp,
