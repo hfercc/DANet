@@ -48,7 +48,8 @@ class FCN(BaseNet):
         self.fcrn.load_state_dict(load_weights(self.fcrn, "NYU_ResNet-UpProj.npy", dtype))
         self.fcrn.load_state_dict(torch.load('checkpoint.pth.tar')['state_dict'])
         self.fcrn.train()
-        self.depth = type(self.pretrained)()
+        torch.save(self.pretrained, "temp.pkl")
+        self.depth = torch.load('temp.pkl')
         self.depth.load_state_dict(self.pretrained.state_dict())
         self.depth.conv1 = nn.Conv2d(1, 64, 7, 2, 3, bias=False)
         if aux:
