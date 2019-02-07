@@ -69,14 +69,14 @@ class FCN(BaseNet):
         x = self.pretrained.bn1(x)
         x = self.pretrained.relu(x)
         x = self.pretrained.maxpool(x)
-        x = torch.add(x, d1)
         c1 = self.pretrained.layer1(x)
-        c1 = torch.add(c1, d2)
+        c1 = torch.add(c1, d1)
         c2 = self.pretrained.layer2(c1)
-        c2 = torch.add(c2, d3)
+        c2 = torch.add(c2, d2)
         c3 = self.pretrained.layer3(c2)
-        c3 = torch.add(c3, d4)
+        c3 = torch.add(c3, d3)
         c4 = self.pretrained.layer4(c3)
+        c4 = torch.add(c4, d4)
         return c1, c2, c3, c4
 
     def forward(self, x, depth):
