@@ -70,6 +70,8 @@ class Trainer():
             params_list.append({'params': model.head.parameters(), 'lr': args.lr*10})
         if hasattr(model, 'auxlayer'):
             params_list.append({'params': model.auxlayer.parameters(), 'lr': args.lr*10})
+        if hasattr(model, 'depth'):
+            params_list.append({'params': model.depth.parameters(), 'lr': args.lr*10})
         optimizer = torch.optim.SGD(params_list,
                     lr=args.lr,
                     momentum=args.momentum,
