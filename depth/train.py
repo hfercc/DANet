@@ -129,8 +129,8 @@ class Trainer():
                     depth = depth2.float() / 19
                     target = target2.long()
                 else:
-                    target = Variable(target)
-                    depth = Variable(depth)
+                    target = Variable(target).long()
+                    depth = Variable(depth).float()
             outputs = self.model(image, depth, (i%10==0))
             #print(outputs)
             #print(outputs[0][0].shape)
