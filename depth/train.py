@@ -125,7 +125,7 @@ class Trainer():
                 image = Variable(image)
                 if i % 10 == 0:
                     depth2 = Variable(target).float()
-                    target2 = Variable(depth).long()
+                    target2 = Variable(depth).float()
                     depth = depth2.float() / 19
                     target = target2.long()
                 else:
