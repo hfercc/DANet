@@ -123,8 +123,14 @@ class Trainer():
             self.optimizer.zero_grad()
             if torch_ver == "0.3":
                 image = Variable(image)
-                target = Variable(target)
-                depth = Variable(depth)
+                if i % 10 == 0:
+                    depth2 = Variable(target)
+                    target2 = Variable(depth)
+                    depth = depth2
+                    target = target2
+                else:
+                    target = Variable(target)
+                    depth = Variable(depth)
             outputs = self.model(image, depth)
             #print(outputs)
             #print(outputs[0][0].shape)
