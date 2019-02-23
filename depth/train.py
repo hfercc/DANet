@@ -21,7 +21,7 @@ from enc.parallel import DataParallelModel, DataParallelCriterion
 from enc.datasets import get_segmentation_dataset
 from enc.models import get_segmentation_model
 from enc.models.fcrn import FCRN
-
+from enc.models.weights import load_weights
 from option import Options
 
 fcrn = FCRN(1)
