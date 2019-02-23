@@ -20,9 +20,14 @@ from enc.nn import SegmentationMultiLosses
 from enc.parallel import DataParallelModel, DataParallelCriterion
 from enc.datasets import get_segmentation_dataset
 from enc.models import get_segmentation_model
-
+from enc.models.fcrn import FCRN
 
 from option import Options
+
+fcrn = FCRN(1)
+fcrn.load_state_dict(load_weights(fcrn, "NYU_ResNet-UpProj.npy", dtype))
+fcrn.load_state_dict(torch.load('checkpoint.pth.tar')['state_dict'])
+fcrn.train()
 
 
 torch_ver = torch.__version__[:3]
@@ -134,10 +139,11 @@ class Trainer():
                     depth = Variable(depth).float()
 
 
-            outputs = self.model(image, depth, (i%10==0))
+            outputs = self.model(image, (i%10==0))
             #print(outputs)
             #print(outputs[0][0].shape)
             #print(target.shape)
+            depth = fcrn(depth)
             if i % 10 == 0:
                 loss = self.criterion(outputs, depth, target.float(), (i%10==0))
             else:
@@ -167,7 +173,7 @@ class Trainer():
     def validation(self, epoch):
         # Fast test during the training
         def eval_batch(model, image, target, depth):
-            outputs= model(image, depth)
+            outputs= model(image)
             out = []
             for i in range(len(outputs)):
                 out.append(outputs[i][0])

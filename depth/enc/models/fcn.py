@@ -44,20 +44,16 @@ class FCN(BaseNet):
         super(FCN, self).__init__(nclass, backbone, aux, se_loss, norm_layer=norm_layer, **kwargs)
         self.head = FCNHead(2048, nclass, norm_layer)
         self.head_depth = FCNHead(2048, 1, norm_layer)
-        self.fcrn = FCRN(1)
-        self.fcrn.load_state_dict(load_weights(self.fcrn, "NYU_ResNet-UpProj.npy", dtype))
-        self.fcrn.load_state_dict(torch.load('checkpoint.pth.tar')['state_dict'])
-        self.fcrn.train()
         self.parse_fcrn = nn.Sequential(
             nn.Conv2d(64, 19, 3, padding=1),
             nn.Upsample((768, 768), mode='bilinear'))
         if aux:
             self.auxlayer = FCNHead(1024, nclass, norm_layer)
 
-    def forward(self, x, depth, rev = False):
+    def forward(self, x, rev = False):
         imsize = x.size()[2:]
-        d_out = self.fcrn(depth)
-        d_out = self.parse_fcrn(d_out)
+        #d_out = self.fcrn(depth)
+        #d_out = self.parse_fcrn(d_out)
         #print(d_out.shape)
         _, _, c3, c4 = self.base_forward(x)
         #print(c3.shape)
@@ -69,7 +65,7 @@ class FCN(BaseNet):
         x_depth = upsample(x, imsize, **self._up_kwargs)
         #print(x.shape)
         #x[1] = upsample(x[1], imsize, **self._up_kwargs).view(-1, imsize[0], imsize[1])
-        outputs = [x, x_depth]
+        outputs = [x, x_depth, d_out]
         #outputs.append(x[1])
         if self.aux:
             auxout = self.auxlayer(c3)
