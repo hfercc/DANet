@@ -124,8 +124,8 @@ class Trainer():
             if torch_ver == "0.3":
                 image = Variable(image)
                 if i % 10 == 0:
-                    depth2 = Variable(target)
-                    target2 = Variable(depth)
+                    depth2 = Variable(target).float()
+                    target2 = Variable(depth).long()
                     depth = depth2.float() / 19
                     target = target2.long()
                 else:
