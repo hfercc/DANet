@@ -103,7 +103,6 @@ class SegmentationMultiLosses(CrossEntropyLoss):
 
         *preds, target, depth, rev = tuple(inputs)
         pred1, pred2 = tuple(preds)
-        print(rev)
         if not rev:
             loss = super(SegmentationMultiLosses, self).forward(pred1, target)
             loss2 = self.aux_loss(pred2, depth) * 1e-9
