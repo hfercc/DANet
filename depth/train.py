@@ -145,7 +145,7 @@ class Trainer():
             #print(outputs[0][0].shape)
             #print(target.shape)
             depth = depth.cuda()
-            depth = fcrn(depth)
+            depth = fcrn(depth).unsqueeze(1)
             if i % 10 == 0:
                 loss = self.criterion(outputs, depth, target.float(), (i%10==0))
             else:
