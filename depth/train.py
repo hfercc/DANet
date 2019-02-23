@@ -126,8 +126,8 @@ class Trainer():
                 if i % 10 == 0:
                     depth2 = Variable(target)
                     target2 = Variable(depth)
-                    depth = depth2
-                    target = target2
+                    depth = depth2.float() / 19
+                    target = target2.long()
                 else:
                     target = Variable(target)
                     depth = Variable(depth)
