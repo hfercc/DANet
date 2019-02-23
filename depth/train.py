@@ -147,7 +147,7 @@ class Trainer():
             depth = depth.cuda()
             depth = fcrn(depth).unsqueeze(1)
             if i % 10 == 0:
-                loss = self.criterion(outputs, depth, target.float(), (i%10==0))
+                loss = self.criterion(outputs, depth, target.float() / 19, (i%10==0))
             else:
                 loss = self.criterion(outputs, target, depth, False)
             loss.backward()

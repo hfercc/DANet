@@ -94,7 +94,7 @@ class FCNHead(nn.Module):
         #return tuple(outputs)
         normal_out = self.conv5(x)
         if not rev:
-            normal_out = self.conv6(x)
+            normal_out = self.conv6(normal_out)
         else:
             normal_out = self.conv7(normal_out)
         return normal_out
