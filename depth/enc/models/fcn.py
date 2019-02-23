@@ -65,7 +65,7 @@ class FCN(BaseNet):
         x_depth = upsample(x, imsize, **self._up_kwargs)
         #print(x.shape)
         #x[1] = upsample(x[1], imsize, **self._up_kwargs).view(-1, imsize[0], imsize[1])
-        outputs = [x, x_depth, d_out]
+        outputs = [x, x_depth]
         #outputs.append(x[1])
         if self.aux:
             auxout = self.auxlayer(c3)
