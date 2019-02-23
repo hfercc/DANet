@@ -135,7 +135,7 @@ class Trainer():
             #print(outputs)
             #print(outputs[0][0].shape)
             #print(target.shape)
-            loss = self.criterion(outputs, target, depth, rev)
+            loss = self.criterion(outputs, target, depth, (i%10==0))
             loss.backward()
             #loss = self.criterion(outputs, 1, depth)
             #loss.backward()
