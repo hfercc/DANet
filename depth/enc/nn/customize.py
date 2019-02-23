@@ -106,7 +106,7 @@ class SegmentationMultiLosses(CrossEntropyLoss):
         print(rev)
         if not rev:
             loss = super(SegmentationMultiLosses, self).forward(pred1, target)
-            loss2 = super(SegmentationMultiLosses, self).forward(pred2, depth)
+            loss2 = self.aux_loss(pred2, depth)
         else:
             loss = self.aux_loss(pred1, target)
             pred2 = pred2.squeeze(1)
