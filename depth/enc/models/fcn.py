@@ -100,7 +100,7 @@ class FCNHead(nn.Module):
         if not rev:
             normal_out = self.conv6(x)
         else:
-            normal_out = self.conv7(x)
+            normal_out = self.conv7(normal_out)
         return normal_out
 
 
