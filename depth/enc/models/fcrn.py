@@ -202,10 +202,10 @@ class FCRN(nn.Module):
         x = self.up4(x)
 
         x = self.drop(x)
-        x = self.conv3(x)
-        x = self.relu(x)
+        #x = self.conv3(x)
+        #x = self.relu(x)
         #print(x.shape)
-        x = self.upsample(x)
+        #x = self.upsample(x)
         #x = self.conv4(x)
         #print(x.shape)
         return x 
