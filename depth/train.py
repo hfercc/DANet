@@ -25,7 +25,7 @@ from enc.models.weights import load_weights
 dtype = torch.cuda.FloatTensor
 from option import Options
 
-fcrn = FCRN(1).cuda()
+fcrn = FCRN(2).cuda()
 fcrn.load_state_dict(load_weights(fcrn, "NYU_ResNet-UpProj.npy", dtype))
 fcrn.load_state_dict(torch.load('checkpoint.pth.tar')['state_dict'])
 fcrn.train()
