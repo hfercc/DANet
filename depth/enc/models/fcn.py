@@ -43,7 +43,7 @@ class FCN(BaseNet):
     def __init__(self, nclass, backbone, aux=True, se_loss=False, norm_layer=nn.BatchNorm2d, **kwargs):
         super(FCN, self).__init__(nclass, backbone, aux, se_loss, norm_layer=norm_layer, **kwargs)
         self.head = FCNHead(2048, nclass, norm_layer)
-        self.head_depth = FCNHead(2048, nclass, norm_layer)
+        self.head_depth = FCNHead(2048, 1, norm_layer)
         self.fcrn = FCRN(1)
         self.fcrn.load_state_dict(load_weights(self.fcrn, "NYU_ResNet-UpProj.npy", dtype))
         self.fcrn.load_state_dict(torch.load('checkpoint.pth.tar')['state_dict'])
@@ -54,18 +54,18 @@ class FCN(BaseNet):
         if aux:
             self.auxlayer = FCNHead(1024, nclass, norm_layer)
 
-    def forward(self, x, depth):
+    def forward(self, x, depth, rev = False):
         imsize = x.size()[2:]
         d_out = self.fcrn(depth)
         d_out = self.parse_fcrn(d_out)
         #print(d_out.shape)
         _, _, c3, c4 = self.base_forward(x)
         #print(c3.shape)
-        x = self.head(c4)
+        x = self.head(c4, rev=rev)
         #x = upsample(x, imsize, **self._up_kwargs)
         x = upsample(x, imsize, **self._up_kwargs)
         #print("UPSAMPLE")
-        x_depth = self.head_depth(c4)
+        x_depth = self.head_depth(c4, rev=rev)
         x_depth = upsample(x, imsize, **self._up_kwargs)
         #print(x.shape)
         #x[1] = upsample(x[1], imsize, **self._up_kwargs).view(-1, imsize[0], imsize[1])
@@ -85,15 +85,11 @@ class FCNHead(nn.Module):
         self.conv5 = nn.Sequential(nn.Conv2d(in_channels, inter_channels, 3, padding=1, bias=False),
                                    norm_layer(inter_channels),
                                    nn.ReLU(),
-                                   nn.Dropout2d(0.1, False),
-                                   nn.Conv2d(inter_channels, out_channels, 1))
+                                   nn.Dropout2d(0.1, False))
+        self.conv6 = nn.Conv2d(inter_channels, out_channels, 1)
+        self.conv7 = nn.Conv2d(inter_channels, 1, 1)
 
-        self.conv6 = nn.Sequential(nn.Conv2d(in_channels, inter_channels, 3, padding=1, bias=False),
-                                   norm_layer(inter_channels),
-                                   nn.ReLU(),
-                                   nn.Dropout2d(0.1, False),
-                                   nn.Conv2d(inter_channels, 1, 1))
-    def forward(self, x):
+    def forward(self, x, rev = False):
         #normal_out = self.conv5(x)
         #depth_out = self.conv6(x)
         #outputs = [normal_out]
@@ -101,6 +97,10 @@ class FCNHead(nn.Module):
         #return self.conv5(x)
         #return tuple(outputs)
         normal_out = self.conv5(x)
+        if not rev:
+            normal_out = self.conv6(x)
+        else:
+            normal_out = self.conv7(x)
         return normal_out
 
 

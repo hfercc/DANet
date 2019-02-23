@@ -131,7 +131,7 @@ class Trainer():
                 else:
                     target = Variable(target)
                     depth = Variable(depth)
-            outputs = self.model(image, depth)
+            outputs = self.model(image, depth, (i%10==0))
             #print(outputs)
             #print(outputs[0][0].shape)
             #print(target.shape)
