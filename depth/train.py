@@ -132,11 +132,16 @@ class Trainer():
                 else:
                     target = Variable(target).long()
                     depth = Variable(depth).float()
+
+
             outputs = self.model(image, depth, (i%10==0))
             #print(outputs)
             #print(outputs[0][0].shape)
             #print(target.shape)
-            loss = self.criterion(outputs, target, depth, (i%10==0))
+            if i % 10 == 0:
+                loss = self.criterion(outputs, depth, target.float(), (i%10==0))
+            else:
+                loss = self.criterion(outputs, target, depth, False)
             loss.backward()
             #loss = self.criterion(outputs, 1, depth)
             #loss.backward()
