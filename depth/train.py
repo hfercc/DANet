@@ -128,6 +128,7 @@ class Trainer():
                     target2 = Variable(depth).float()
                     depth = depth2.float() / 19
                     target = target2.float()
+                    print(target)
                 else:
                     target = Variable(target).long()
                     depth = Variable(depth).float()
