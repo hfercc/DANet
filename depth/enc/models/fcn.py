@@ -43,6 +43,7 @@ class FCN(BaseNet):
     def __init__(self, nclass, backbone, aux=True, se_loss=False, norm_layer=nn.BatchNorm2d, **kwargs):
         super(FCN, self).__init__(nclass, backbone, aux, se_loss, norm_layer=norm_layer, **kwargs)
         self.head = FCNHead(2048, nclass, norm_layer)
+        self.head_depth = FCNHead(2048, nclass, norm_layer)
         self.fcrn = FCRN(1)
         self.fcrn.load_state_dict(load_weights(self.fcrn, "NYU_ResNet-UpProj.npy", dtype))
         self.fcrn.load_state_dict(torch.load('checkpoint.pth.tar')['state_dict'])
@@ -64,10 +65,11 @@ class FCN(BaseNet):
         #x = upsample(x, imsize, **self._up_kwargs)
         x = upsample(x, imsize, **self._up_kwargs)
         #print("UPSAMPLE")
-        x += d_out
+        x_depth = self.head_depth(c4)
+        x_depth = upsample(x, imsize, **self._up_kwargs)
         #print(x.shape)
         #x[1] = upsample(x[1], imsize, **self._up_kwargs).view(-1, imsize[0], imsize[1])
-        outputs = [x, x]
+        outputs = [x, x_depth]
         #outputs.append(x[1])
         if self.aux:
             auxout = self.auxlayer(c3)
