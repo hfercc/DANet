@@ -110,7 +110,7 @@ class SegmentationMultiLosses(CrossEntropyLoss):
         else:
             loss = self.aux_loss(pred1, target) * 1e-5
             pred2 = pred2.squeeze(1)
-            loss2 = self.aux_loss(pred2, depth) * 
+            loss2 = self.aux_loss(pred2, depth) * 1e-5
         #loss2 = self.aux_loss(pred2, depth.float())
         #choice = (np.random.rand() < self.prob)
         #if choice:
