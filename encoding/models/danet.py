@@ -43,6 +43,7 @@ class DANet(BaseNet):
     def forward(self, x):
         imsize = x.size()[2:]
         _, _, c3, c4 = self.base_forward(x)
+        print(c3.shape)
 
         x = self.head(c4)
         x = list(x)
