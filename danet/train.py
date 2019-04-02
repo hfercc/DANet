@@ -85,7 +85,8 @@ class Trainer():
         if args.cuda:
             self.model = DataParallelModel(self.model).cuda()
             self.criterion = DataParallelCriterion(self.criterion).cuda()
-            self.singular_loss = DataParallelCriterion(self.singular_loss).cuda()
+            if args.sing:
+                self.singular_loss = DataParallelCriterion(self.singular_loss).cuda()
         # finetune from a trained model
         if args.ft:
             args.start_epoch = 0
