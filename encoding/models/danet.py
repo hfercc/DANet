@@ -64,7 +64,7 @@ class DANet(BaseNet):
         outputs = [x[0]]
         outputs.append(x[1])
         outputs.append(x[2])
-        return tuple(outputs), feature_dict
+        return tuple(outputs, feature_dict)
         
 class DANetHead(nn.Module):
     def __init__(self, in_channels, out_channels, norm_layer):
