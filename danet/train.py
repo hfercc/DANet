@@ -159,8 +159,8 @@ class Trainer():
             outputs = model(image)
             print(outputs)
             if self.args.sing:
-                *preds, _ = outputs
-                outputs = tuple(preds[0])
+                preds = outputs[0]
+                outputs = tuple(preds)
                 print(outputs)
             outputs = gather(outputs, 0, dim=0)
             pred = outputs[0]
