@@ -128,13 +128,10 @@ class Trainer():
                 image = Variable(image)
                 target = Variable(target)
             if self.args.sing:
-                outputs, feature_dict = self.model(image)
-                print(outputs)
-                print(feature_dict)
-                print(target)
+                outputs = self.model(image)
                 loss = self.criterion(outputs, target)
             else:
-                outputs, _ = self.model(image)
+                outputs = self.model(image)
                 loss = self.criterion(outputs, target)
             loss.backward()
             self.optimizer.step()
