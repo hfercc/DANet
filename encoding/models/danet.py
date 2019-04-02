@@ -41,12 +41,23 @@ class DANet(BaseNet):
         self.head = DANetHead(2048, nclass, norm_layer)
 
     def forward(self, x):
+        feature_dict = {
+            'cam': [],
+            'pam': [],
+            'before': [],
+            'after': [],
+            'layer5': layer5
+        }
+
         imsize = x.size()[2:]
         _, _, c3, c4 = self.base_forward(x)
         print(c3.shape)
+        features []
 
         x = self.head(c4)
         x = list(x)
+        feature_dict['pam'] = (*feature_dict['pam'], x[1])
+        feature_dict['cam'] = (*feature_dict['cam'], x[2])
         x[0] = upsample(x[0], imsize, **self._up_kwargs)
         x[1] = upsample(x[1], imsize, **self._up_kwargs)
         x[2] = upsample(x[2], imsize, **self._up_kwargs)
@@ -54,7 +65,7 @@ class DANet(BaseNet):
         outputs = [x[0]]
         outputs.append(x[1])
         outputs.append(x[2])
-        return tuple(outputs)
+        return tuple(outputs), feature_dict
         
 class DANetHead(nn.Module):
     def __init__(self, in_channels, out_channels, norm_layer):
@@ -87,7 +98,6 @@ class DANetHead(nn.Module):
         sa_feat = self.sa(feat1)
         sa_conv = self.conv51(sa_feat)
         sa_output = self.conv6(sa_conv)
-
         feat2 = self.conv5c(x)
         sc_feat = self.sc(feat2)
         sc_conv = self.conv52(sc_feat)

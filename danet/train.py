@@ -17,6 +17,7 @@ from torch.nn.parallel.scatter_gather import gather
 import encoding.utils as utils
 from encoding.nn import SegmentationLosses,BatchNorm2d
 from encoding.nn import SegmentationMultiLosses
+from encoding.nn.singular_loss import SingularLoss
 from encoding.parallel import DataParallelModel, DataParallelCriterion
 from encoding.datasets import get_segmentation_dataset
 from encoding.models import get_segmentation_model
@@ -75,6 +76,8 @@ class Trainer():
                     momentum=args.momentum,
                     weight_decay=args.weight_decay)
         self.criterion = SegmentationMultiLosses(nclass=self.nclass)
+        if args.sing:
+            self.singular_loss = SingularLoss(penalty_position=args.penalty_position)
         #self.criterion = SegmentationLosses(se_loss=args.se_loss, aux=args.aux,nclass=self.nclass)
 
         self.model, self.optimizer = model, optimizer
@@ -82,6 +85,7 @@ class Trainer():
         if args.cuda:
             self.model = DataParallelModel(self.model).cuda()
             self.criterion = DataParallelCriterion(self.criterion).cuda()
+            self.singular_loss = DataParallelCriterion(self.singular_loss).cuda()
         # finetune from a trained model
         if args.ft:
             args.start_epoch = 0
@@ -122,8 +126,12 @@ class Trainer():
             if torch_ver == "0.3":
                 image = Variable(image)
                 target = Variable(target)
-            outputs = self.model(image)
-            loss = self.criterion(outputs, target)
+            if self.args.sing:
+                outputs, feature_dict = self.model(image)
+                loss = self.criterion(outputs, target) + self.singular_loss(feature_dict, target)
+            else:
+                outputs, _ = self.model(image)
+                loss = self.criterion(outputs, target)
             loss.backward()
             self.optimizer.step()
             train_loss += loss.item()
