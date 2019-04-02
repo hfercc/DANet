@@ -128,7 +128,7 @@ class Trainer():
                 target = Variable(target)
             if self.args.sing:
                 outputs, feature_dict = self.model(image)
-                loss = self.criterion(outputs, target) + self.singular_loss(feature_dict, target)
+                loss = self.criterion(outputs, target)
             else:
                 outputs, _ = self.model(image)
                 loss = self.criterion(outputs, target)

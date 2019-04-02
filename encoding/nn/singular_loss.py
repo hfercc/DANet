@@ -89,5 +89,4 @@ class SingularLoss(nn.Module):
 
         singular_penalty = sum([self.apply_penalty(k, x) for k, x in feature_dict.items() if k in self.penalty_position])
 
-        logger.debug(str(singular_penalty))
         return singular_penalty
