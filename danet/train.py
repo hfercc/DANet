@@ -130,6 +130,7 @@ class Trainer():
                 outputs, feature_dict = self.model(image)
                 print(outputs)
                 print(feature_dict)
+                print(target)
                 loss = self.criterion(outputs, target)
             else:
                 outputs, _ = self.model(image)
