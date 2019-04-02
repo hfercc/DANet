@@ -46,7 +46,7 @@ class DANet(BaseNet):
             'pam': [],
             'before': [],
             'after': [],
-            'layer5': layer5
+            'layer5': []
         }
 
         imsize = x.size()[2:]
