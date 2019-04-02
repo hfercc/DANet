@@ -101,7 +101,7 @@ class Options():
                             help="multi grid dilation list")
         parser.add_argument('--scale', action='store_false', default=True,
                            help='choose to use random scale transform(0.75-2),default:multi scale')
-        parser.add_argument('--sing', action='store_true', default=True,
+        parser.add_argument('--sing', action='store_true', default=False,
                            help='singular')
         parser.add_argument('--penalty_position', type=str, default="pam,cam",
                            help='penalty position')
