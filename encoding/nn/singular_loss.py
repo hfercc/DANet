@@ -24,6 +24,7 @@ class SingularLoss(nn.Module):
         except (ValueError, TypeError):
             os_beta = 1e-6
 
+        self.USE_LOG = False
         print('USE_GPU', use_gpu)
         self.beta = os_beta
         print('O.F. Beta', self.beta)
@@ -68,7 +69,7 @@ class SingularLoss(nn.Module):
         batches, channels, height, width = x.size()
         W = x.view(batches, channels, -1)
         smallest, largest = self.get_singular_values(W)
-        if not USE_LOG:
+        if not self.USE_LOG:
             singular_penalty = (largest - smallest) * self.beta
         else:
             singular_penalty = (torch.log1p(largest) - torch.log1p(smallest)) * self.beta
