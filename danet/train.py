@@ -131,12 +131,10 @@ class Trainer():
             if torch_ver == "0.3":
                 image = Variable(image)
                 target = Variable(target)
+            outputs = self.model(image)
+                loss = self.criterion(outputs, target)
             if self.args.sing:
-                outputs = self.model(image)
-                loss = self.criterion(outputs, target)
-            else:
-                outputs = self.model(image)
-                loss = self.criterion(outputs, target)
+                loss += self.singular_loss(outputs)
             if self.regularizer != None:
                 loss += self.regularizer(self.model)
             loss.backward()

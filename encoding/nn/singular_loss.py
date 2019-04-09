@@ -78,9 +78,9 @@ class SingularLoss(nn.Module):
 
         return singular_penalty.sum() / (x.size()[0] / 32.)  # Quirk: normalize to 32-batch case
 
-    def forward(self, inputs, pids):
+    def forward(self, inputs):
 
-        _, feature_dict, target = tuple(inputs)
+        _, feature_dict = tuple(inputs)
 
         existed_positions = frozenset(feature_dict.keys())
         missing = self.penalty_position - existed_positions
