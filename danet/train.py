@@ -165,9 +165,9 @@ class Trainer():
                 preds = tuple(outputs[0],)
                 outputs = tuple(preds)
             outputs = gather(outputs, 0, dim=0)
-            pred = outputs[0]
+            pred = outputs[0].unsqueeze(0)
             print(pred.shape)
-            target = target.cuda()
+            target = target.cuda().unsqueeze(0)
             print(target.shape)
             correct, labeled = utils.batch_pix_accuracy(pred.data, target)
             inter, union = utils.batch_intersection_union(pred.data, target, self.nclass)
