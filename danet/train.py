@@ -166,9 +166,7 @@ class Trainer():
                 outputs = tuple(preds)
             outputs = gather(outputs, 0, dim=0)
             pred = outputs[0].unsqueeze(0)
-            print(pred.shape)
             target = target.cuda().unsqueeze(0)
-            print(target.shape)
             correct, labeled = utils.batch_pix_accuracy(pred.data, target)
             inter, union = utils.batch_intersection_union(pred.data, target, self.nclass)
             return correct, labeled, inter, union
@@ -216,7 +214,6 @@ if __name__ == "__main__":
     trainer.logger.info(['Total Epoches:', str(args.epochs)])
 
     for epoch in range(args.start_epoch, args.epochs):
-        trainer.validation(epoch)
         trainer.training(epoch)
         if not args.no_val:
             trainer.validation(epoch)
