@@ -161,6 +161,7 @@ class Trainer():
         # Fast test during the training
         def eval_batch(model, image, target):
             outputs = model(image)
+            print(outputs)
             if self.args.sing:
                 preds = tuple(outputs[0],)
                 outputs = tuple(preds)
@@ -214,6 +215,7 @@ if __name__ == "__main__":
     trainer.logger.info(['Total Epoches:', str(args.epochs)])
 
     for epoch in range(args.start_epoch, args.epochs):
+        trainer.validation(epoch)
         trainer.training(epoch)
         if not args.no_val:
             trainer.validation(epoch)
