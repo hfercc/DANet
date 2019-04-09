@@ -21,7 +21,7 @@ from encoding.nn.singular_loss import SingularLoss
 from encoding.parallel import DataParallelModel, DataParallelCriterion
 from encoding.datasets import get_segmentation_dataset
 from encoding.models import get_segmentation_model
-
+from encoding.regularizers import get_regularizer
 
 from option import Options
 
@@ -115,6 +115,10 @@ class Trainer():
                                             args.epochs, len(self.trainloader), logger=self.logger,
                                             lr_step=args.lr_step)
         self.best_pred = 0.0
+        if args.regularizers != None:
+            self.regularizer = get_regularizer(args.regularizers)
+        else:
+            self.regularizer = None
 
     def training(self, epoch):
         train_loss = 0.0
@@ -133,6 +137,8 @@ class Trainer():
             else:
                 outputs = self.model(image)
                 loss = self.criterion(outputs, target)
+            if self.regularizer ! None:
+                loss += self.regularizer(self.model)
             loss.backward()
             self.optimizer.step()
             train_loss += loss.item()

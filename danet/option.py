@@ -105,6 +105,8 @@ class Options():
                            help='singular')
         parser.add_argument('--penalty_position', type=str, default="pam,cam",
                            help='penalty position')
+        parser.add_argument('--regularizer', type=str, default=None,
+                           help='Regularizer')
         # the parser
         self.parser = parser
 
