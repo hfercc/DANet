@@ -165,7 +165,8 @@ class Trainer():
                 preds = tuple(outputs[0],)
                 outputs = tuple(preds)
             outputs = gather(outputs, 0, dim=0)
-            print(outputs.shape)
+            pred = outputs[0]
+            print(pred.shape)
             target = target.cuda()
             print(target.shape)
             correct, labeled = utils.batch_pix_accuracy(pred.data, target)
