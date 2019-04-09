@@ -132,7 +132,7 @@ class Trainer():
                 image = Variable(image)
                 target = Variable(target)
             outputs = self.model(image)
-                loss = self.criterion(outputs, target)
+            loss = self.criterion(outputs, target)
             if self.args.sing:
                 loss += self.singular_loss(outputs)
             if self.regularizer != None:
