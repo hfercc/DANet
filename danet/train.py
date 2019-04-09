@@ -115,8 +115,8 @@ class Trainer():
                                             args.epochs, len(self.trainloader), logger=self.logger,
                                             lr_step=args.lr_step)
         self.best_pred = 0.0
-        if args.regularizers != None:
-            self.regularizer = get_regularizer(args.regularizers)
+        if args.regularizer != None:
+            self.regularizer = get_regularizer(args.regularizer)
         else:
             self.regularizer = None
 
