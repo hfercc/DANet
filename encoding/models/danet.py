@@ -46,7 +46,8 @@ class DANet(BaseNet):
             'pam': [],
             'before': [],
             'after': [],
-            'layer5': []
+            'layer5': [],
+            'sum': []
         }
 
         imsize = x.size()[2:]
@@ -56,6 +57,7 @@ class DANet(BaseNet):
         x = list(x)
         feature_dict['pam'] = (*feature_dict['pam'], x[1])
         feature_dict['cam'] = (*feature_dict['cam'], x[2])
+        feature_dict['sum'] = (*feature_dict['sum'], x[1] + x[2])
         x[0] = upsample(x[0], imsize, **self._up_kwargs)
         x[1] = upsample(x[1], imsize, **self._up_kwargs)
         x[2] = upsample(x[2], imsize, **self._up_kwargs)
