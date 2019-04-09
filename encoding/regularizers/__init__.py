@@ -36,7 +36,7 @@ class ConvRegularizer(nn.Module):
         if ignore:
             return accumulator
 
-        for conv in self.get_all_conv_layers(net.module.pretrained()):
+        for conv in self.get_all_conv_layers(net.module.pretrained):
             accumulator += self.reg_instance(conv.weight)
 
         # print(accumulator.data)
