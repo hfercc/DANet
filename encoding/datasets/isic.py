@@ -19,7 +19,7 @@ from tqdm import tqdm
 from .base import BaseDataset
 
 class ISICSegmentation(BaseDataset):
-    BASE_DIR = 'cityscapes'
+    BASE_DIR = 'ISIC'
     NUM_CLASS = 2
     def __init__(self, root='../datasets', split='train',
                  mode=None, transform=None, target_transform=None, **kwargs):
