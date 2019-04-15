@@ -129,6 +129,8 @@ class Trainer():
                 target = Variable(target)
             if self.args.sing:
                 outputs = self.model(image)
+                print(outputs)
+                print(target)
                 loss = self.criterion(outputs, target)
             else:
                 outputs = self.model(image)
