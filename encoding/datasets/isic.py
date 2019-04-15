@@ -23,7 +23,7 @@ class ISICSegmentation(BaseDataset):
     NUM_CLASS = 2
     def __init__(self, root='../datasets', split='train',
                  mode=None, transform=None, target_transform=None, **kwargs):
-        super(CityscapesSegmentation, self).__init__(
+        super(ISICSegmentation, self).__init__(
             root, split, mode, transform, target_transform, **kwargs)
         # assert exists
         root = os.path.join(root, self.BASE_DIR)
