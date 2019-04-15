@@ -18,7 +18,7 @@ import re
 from tqdm import tqdm
 from .base import BaseDataset
 
-class CityscapesSegmentation(BaseDataset):
+class ISICSegmentation(BaseDataset):
     BASE_DIR = 'cityscapes'
     NUM_CLASS = 2
     def __init__(self, root='../datasets', split='train',
