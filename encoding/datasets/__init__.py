@@ -12,7 +12,7 @@ datasets = {
     'pascal_aug': VOCAugSegmentation,
     'pcontext': ContextSegmentation,
     'cityscapes': CityscapesSegmentation,
-    'ISIC': ISICSegmentation
+    'isic': ISICSegmentation
 }
 
 def get_segmentation_dataset(name, **kwargs):
