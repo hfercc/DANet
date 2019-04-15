@@ -128,9 +128,7 @@ class Trainer():
                 image = Variable(image)
                 target = Variable(target)
             if self.args.sing:
-                outputs = self.model(image)
-                print(outputs)
-                print(target)
+                outputs, feature_dict = self.model(image)
                 loss = self.criterion(outputs, target)
             else:
                 outputs = self.model(image)
