@@ -130,11 +130,11 @@ class Trainer():
             if self.args.sing:
                 outputs = self.model(image)
                 preds = [tuple(i[0],) for i in outputs]
-                feature_dict = [tuple(i[1],) for i in outputs]
+                feature_dict = [i[1] for i in outputs]
                 print(feature_dict)
                 loss = self.criterion(preds, target)
                 #singular_loss = self.singular_loss(feature_dict, target)
-                loss += singular_loss
+                #loss += singular_loss
             else:
                 outputs = self.model(image)
                 loss = self.criterion(outputs, target)
