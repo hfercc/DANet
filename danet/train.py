@@ -128,8 +128,10 @@ class Trainer():
                 image = Variable(image)
                 target = Variable(target)
             if self.args.sing:
-                outputs, feature_dict = self.model(image)
-                loss = self.criterion(outputs, target)
+                outputs = self.model(image)
+                preds = [tuple(i[0],) for i in outputs]
+                feature_dict = [tuple(i[1],) for i in outputs]
+                loss = self.criterion(preds, target)
             else:
                 outputs = self.model(image)
                 loss = self.criterion(outputs, target)
