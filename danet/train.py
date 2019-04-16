@@ -132,7 +132,6 @@ class Trainer():
                 preds = [tuple(i[0],) for i in outputs]
                 feature_dict = [(i[1],) for i in outputs]
                 feature_dict = tuple(feature_dict)
-                print(feature_dict)
                 loss = self.criterion(preds, target)
                 singular_loss = self.singular_loss(feature_dict, target)
                 #loss += singular_loss
