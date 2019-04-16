@@ -130,7 +130,7 @@ class Trainer():
             if self.args.sing:
                 outputs = self.model(image)
                 preds = [tuple(i[0],) for i in outputs]
-                feature_dict = [(i[1],0) for i in outputs]
+                feature_dict = [(i[1],) for i in outputs]
                 print(feature_dict)
                 feature_dict = tuple(feature_dict)
                 print(feature_dict)
