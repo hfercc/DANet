@@ -80,7 +80,7 @@ class SingularLoss(nn.Module):
 
     def forward(self, inputs, pids):
         print(inputs)
-        feature_dict, target = tuple(inputs)
+        feature_dict = tuple(inputs)
 
         existed_positions = frozenset(feature_dict.keys())
         missing = self.penalty_position - existed_positions
