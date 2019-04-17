@@ -207,6 +207,9 @@ def crop_image(img, h0, h1, w0, w1):
     return img[:,:,h0:h1,w0:w1]
 
 def flip_image(img):
+    #print(img)
+    img = img[0]
+    print(img.shape)
     assert(img.dim()==4)
     with torch.cuda.device_of(img):
         idx = torch.arange(img.size(3)-1, -1, -1).type_as(img).long()

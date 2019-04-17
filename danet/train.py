@@ -160,7 +160,7 @@ class Trainer():
 
     def validation(self, epoch):
         # Fast test during the training
-        def eval_batch(model, image, target):
+        def eval_batch(count, model, image, target):
             outputs = model(image)
             if self.args.sing:
                 preds = [tuple(i[0],) for i in outputs]
@@ -180,10 +180,10 @@ class Trainer():
         for i, (image, target) in enumerate(tbar):
             if torch_ver == "0.3":
                 image = Variable(image, volatile=True)
-                correct, labeled, inter, union = eval_batch(self.model, image, target)
+                correct, labeled, inter, union = eval_batch(i, self.model, image, target)
             else:
                 with torch.no_grad():
-                    correct, labeled, inter, union = eval_batch(self.model, image, target)
+                    correct, labeled, inter, union = eval_batch(i, self.model, image, target)
 
             total_correct += correct
             total_label += labeled
