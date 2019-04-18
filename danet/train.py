@@ -137,6 +137,7 @@ class Trainer():
                 #loss += singular_loss
             else:
                 outputs = self.model(image)
+                outputs = [tuple(i[0],) for i in outputs]
                 loss = self.criterion(outputs, target)
             loss.backward()
             self.optimizer.step()
