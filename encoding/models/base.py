@@ -180,10 +180,10 @@ class MultiEvalModule(DataParallel):
 
 
 def module_inference(module, image, flip=True):
-    output = module.evaluate(image)
+    output = module.evaluate(image)[0]
     if flip:
         fimg = flip_image(image)
-        foutput = module.evaluate(fimg)
+        foutput = module.evaluate(fimg)[0]
         output += flip_image(foutput)
     return output.exp()
 
